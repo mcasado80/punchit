@@ -1,0 +1,8 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer fuchsia shape -->
+  <path d="M50 0 L60 28 L85 15 L70 40 L100 50 L70 60 L85 85 L60 72 L50 100 L40 72 L15 85 L30 60 L0 50 L30 40 L15 15 L40 28 Z" fill="#ff00ea"/>
+  <!-- Middle cyan shape -->
+  <path d="M50 20 L58 38 L73 30 L65 45 L80 50 L65 55 L73 70 L58 62 L50 80 L42 62 L27 70 L35 55 L20 50 L35 45 L27 30 L42 38 Z" fill="#00c3ff"/>
+  <!-- Inner white shape -->
+  <path d="M50 35 L55 43 L65 40 L58 48 L70 50 L58 52 L65 60 L55 57 L50 65 L45 57 L35 60 L42 52 L30 50 L42 48 L35 40 L45 43 Z" fill="#FFFFFF"/>
+</svg> 

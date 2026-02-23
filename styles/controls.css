@@ -1,0 +1,235 @@
+/* ==========================================================================
+   Controls Styles
+   ==========================================================================
+   - General button styles (.control-button)
+   - Analog knob styles (.analog-knob)
+   - Specific button states (loop mode, bank toggle, etc.)
+*/
+
+/* Controls Section - in header */
+.controls-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 2vw, 20px);
+  padding: 10px 15px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  flex-shrink: 1;
+  flex-wrap: wrap;
+}
+
+.loop-controls-container {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 2vw, 20px);
+  max-width: 0;
+  opacity: 0;
+  visibility: hidden;
+  overflow: hidden; /* Prevent content from overflowing during transition */
+  white-space: nowrap; /* Prevent buttons from wrapping */
+  /* CLOSING transition: Fade out fast, then collapse */
+  transition:
+    max-width 0.4s ease-in-out,
+    /* No delay */ opacity 0.1s ease-in-out,
+    /* Fade out fast */ visibility 0.1s ease-in-out;
+}
+
+body.loop-mode .loop-controls-container {
+  max-width: 500px; /* Adjust as needed */
+  opacity: 1;
+  visibility: visible;
+  /* OPENING transition: Expand, then fade in slowly */
+  transition:
+    max-width 0.4s ease-in-out,
+    opacity 0.5s ease-in-out,
+    visibility 0.5s ease-in-out;
+}
+
+.control-button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #5a5a7a, #1e1e3f);
+  border: 3px solid #121222;
+  position: relative;
+  cursor: pointer;
+  box-shadow:
+    0 8px 15px rgba(0, 0, 0, 0.5),
+    inset 0 0 10px rgba(0, 0, 0, 0.4);
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  transition:
+    transform 0.15s,
+    box-shadow 0.3s,
+    background 0.3s;
+}
+
+.control-button:hover {
+  transform: scale(1.05);
+}
+
+.control-button:active {
+  transform: scale(0.95);
+}
+
+/* Specific text styles for new buttons */
+#bank-toggle-btn,
+#beats-toggle-btn {
+  font-size: 1.8rem;
+  font-weight: 700;
+  font-family: "Roboto", sans-serif;
+  color: #fff;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+/* Active state for loop and bank buttons */
+#loop-mode-btn.active,
+#bank-toggle-btn.active {
+  background: radial-gradient(circle at 35% 35%, #00c3ff, #0077ff);
+  box-shadow:
+    0 0 20px rgba(0, 195, 255, 0.6),
+    0 8px 15px rgba(0, 0, 0, 0.5),
+    inset 0 0 10px rgba(0, 0, 0, 0.4);
+  border-color: #00c3ff;
+}
+
+#loop-mode-btn.active svg {
+  filter: drop-shadow(0 0 8px rgba(0, 195, 255, 0.8));
+}
+
+.stop-square {
+  width: 24px;
+  height: 24px;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Analog Knob */
+.knob-hidden {
+  display: none;
+}
+
+.knob-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.analog-knob {
+  cursor: grab;
+}
+
+.analog-knob:hover {
+  transform: scale(1.05);
+  box-shadow:
+    0 10px 20px rgba(0, 0, 0, 0.6),
+    inset 0 0 12px rgba(0, 0, 0, 0.5);
+}
+
+.analog-knob:active {
+  cursor: grabbing;
+}
+
+.knob-indicator {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 10px;
+  background: #00c3ff;
+  border-radius: 2px;
+  transform-origin: 50% 25px;
+  box-shadow: 0 0 8px rgba(0, 195, 255, 0.7);
+  transition: transform 0.1s linear;
+}
+
+#bpm-value {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #00c3ff;
+  text-shadow: 0 0 8px rgba(0, 195, 255, 0.5);
+  position: absolute;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .controls-section {
+    gap: 5px;
+    padding: 5px 8px;
+    flex-wrap: nowrap;
+  }
+
+  .control-button,
+  .analog-knob {
+    width: 48px;
+    height: 48px;
+  }
+
+  .knob-indicator {
+    transform-origin: 50% 19px; /* (48px / 2) - 5px */
+    top: 5px;
+    height: 8px;
+  }
+
+  #bank-toggle-btn,
+  #beats-toggle-btn {
+    font-size: 1.2rem;
+  }
+
+  #bpm-value {
+    font-size: 0.8rem;
+  }
+
+  #stop-all-loops-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.control-button svg rect,
+.control-button svg line {
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* START: Styles for active bank toggle button */
+.control-button.active #bank-top,
+.control-button.active line:nth-of-type(1) {
+  opacity: 0.3;
+}
+
+.control-button.active #bank-bottom,
+.control-button.active line:nth-of-type(2) {
+  opacity: 1;
+}
+/* END: Styles for active bank toggle button */
+
+.control-button svg g {
+  transition: opacity 0.3s ease;
+}
+
+.control-button.beats-4 #beats-4,
+.control-button.beats-8 #beats-8,
+.control-button.beats-16 #beats-16 {
+  opacity: 1;
+}
+
+.control-button.beats-4 #beats-8,
+.control-button.beats-4 #beats-16,
+.control-button.beats-8 #beats-4,
+.control-button.beats-8 #beats-16,
+.control-button.beats-16 #beats-4,
+.control-button.beats-16 #beats-8 {
+  opacity: 0;
+}

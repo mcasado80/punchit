@@ -1,0 +1,225 @@
+/* ==========================================================================
+   Components Styles
+   ==========================================================================
+   - Modal styles (.modal)
+   - Start button (dynamically created)
+   - Other reusable, self-contained components
+*/
+
+/* UI-specific components */
+
+#start-button {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 60px 100px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, #ff00ea, #00c3ff);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+#start-button:hover {
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+#fatal-error {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 15px;
+  background-color: #ff3860;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  z-index: 2000;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Modal for Beatbox Sample Loading/Recording */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1000; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.6); /* Black w/ opacity */
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  margin: 0 auto; /* Remove top margin, keep horizontal auto */
+  padding: 25px;
+  border: none;
+  width: 90%;
+  max-width: 450px;
+  border-radius: 15px; /* Softer edges */
+  color: #f0f0f0; /* Light text color */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative; /* For absolute positioning of children */
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: #a0a0a0;
+  font-size: 24px;
+  font-weight: normal;
+  line-height: 1;
+  transition:
+    color 0.2s ease-in-out,
+    transform 0.2s ease-in-out;
+  padding: 5px;
+  border-radius: 50%;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: #ffffff;
+  transform: scale(1.1);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* --- Modal Content Elements --- */
+
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 25px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.file-input-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  background-color: #3a3a3c;
+  border: 2px dashed #4a4a4c;
+  border-radius: 8px;
+  padding: 5px 15px;
+  margin-top: 25px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.file-input-container:hover {
+  border-color: #6c6c6e;
+  background-color: #424244;
+}
+
+.file-input-container svg {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  stroke: #a0a0a0;
+  flex-shrink: 0;
+}
+
+/* Style for buttons inside modal */
+.modal-content button {
+  background-color: #4a4a4c;
+  color: white;
+  border: none;
+  padding: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  margin: 10px 5px;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content button:hover {
+  background-color: #5c5c5e;
+}
+
+.modal-content button:active {
+  transform: scale(0.96);
+}
+
+.record-indicator {
+  width: 18px;
+  height: 18px;
+  background-color: #c53030;
+  border-radius: 50%;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 0 4px #c53030;
+}
+
+#record-toggle-btn.recording {
+  background-color: #c53030;
+}
+#record-toggle-btn.recording:hover {
+  background-color: #e53e3e;
+}
+
+#record-toggle-btn.recording .record-indicator {
+  background-color: white;
+  border-radius: 3px;
+  box-shadow: none;
+}
+
+/* Style for the file input */
+.modal-content input[type="file"] {
+  margin: 0;
+  padding: 10px 0;
+  border: none;
+  background-color: transparent;
+  color: #f0f0f0;
+  width: 100%;
+  text-align: left; /* Align file name to the left */
+  pointer-events: none; /* Clicks will be handled by the container */
+}
+
+/* Style for the file input button - HIDE IT */
+.modal-content input[type="file"]::file-selector-button {
+  display: none;
+}
+
+.modal-buttons {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Beat Length Button SVG Indicators */
+.beat-indicator {
+  fill: #fff; /* Default color */
+  transition: fill 0.1s ease-in-out;
+}
+
+.beat-indicator.active {
+  fill: var(--brand-cyan); /* Highlight color */
+}
+
+#beat-length-btn svg {
+  pointer-events: none;
+}

@@ -1,0 +1,236 @@
+/* ==========================================================================
+   Pads Styles
+   ==========================================================================
+   - Main sample pads (.pad)
+   - Beatbox pads (.beatbox-pad)
+   - Sequencer sub-pads (.sub-pad)
+   - Visual feedback styles (hover, active, current-beat)
+*/
+
+.pad {
+  position: relative;
+  width: 100%; /* Fill column, let layout.css handle sizing */
+  height: 100%;
+  background: linear-gradient(160deg, var(--pad-color), var(--pad-hover-color));
+  border-radius: 40px; /* This creates the capsule shape (half of max-width) */
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.4),
+    inset 0 -8px 15px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  overflow: hidden;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+}
+
+.pad::after,
+.beatbox-pad.loaded::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 100%;
+  padding-bottom: 100%; /* Maintain aspect ratio for circle */
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 0.6) 5%,
+    /* Dark core for contrast */ var(--pad-active-color) 50%,
+    transparent 75%
+  );
+  opacity: 0;
+  transition: none; /* The animation will handle it */
+  z-index: 3;
+}
+
+/* This class is now in animations.css to keep animations centralized */
+/* .pad.active::after,
+.beatbox-pad.loaded.active::after {
+  animation: pulse-anim 0.35s ease-out;
+} */
+
+.pad-inner {
+  width: 100%;
+  height: 50px; /* Set an explicit height for the sub-pad container */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  z-index: 2;
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease,
+    height 0.3s ease;
+  pointer-events: none;
+  margin-bottom: auto; /* Push to top */
+  margin-top: 10px;
+  padding: 0 20px;
+}
+
+.pad-visual-cues {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* To keep the active glow at the bottom if we add one */
+}
+
+body.loop-mode .pad-inner {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: all;
+}
+
+.pad:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 15px 35px rgba(0, 0, 0, 0.5),
+    inset 0 -8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.pad.active {
+  /* The active state is now handled by the ::after pseudo-element animation */
+  /* We can still keep a subtle effect on the pad itself if desired */
+  transform: scale(1.02);
+}
+
+.pad-is-looping {
+  box-shadow:
+    0 0 15px var(--pad-color),
+    0 0 30px var(--pad-color),
+    inset 0 -8px 15px rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--pad-color);
+}
+
+.pad.active.pad-is-looping {
+  border-color: var(--pad-active-color);
+  box-shadow:
+    0 0 20px var(--pad-active-color),
+    0 4px 15px rgba(0, 0, 0, 0.4),
+    inset 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Sub-Pads for Loop Mode */
+.sub-pad {
+  width: 100%;
+  height: 100%; /* Fill the grid cell */
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 5px; /* Slightly rounded sub-pads */
+  transition:
+    background-color 0.15s,
+    transform 0.15s;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.sub-pad:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.sub-pad.active {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  transform: scale(1.05);
+}
+
+.loop-mode .sub-pad {
+  position: relative; /* Needed for the ::before pseudo-element */
+}
+
+/* 
+  The current beat indicator is a non-interactive pseudo-element.
+  This prevents it from interfering with click events on the sub-pad itself.
+*/
+.loop-mode .sub-pad.current-beat::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid #fff;
+  border-radius: 7px; /* Slightly larger than the sub-pad's radius */
+  box-shadow: 0 0 8px #fff;
+  pointer-events: none; /* Let clicks pass through to the sub-pad */
+  animation: pulse-white 0.5s ease-out;
+}
+
+.pad:active {
+  transform: scale(0.97);
+  transition: transform 0.1s ease-in-out;
+}
+
+.sub-pad:active {
+  transform: scale(0.95);
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.beatbox-pad {
+  position: relative;
+  /* aspect-ratio: 1 / 1; */ /* Let the grid define the size */
+  width: 100%;
+  height: 100%;
+  background-color: #333;
+  border-radius: 40px; /* Match .pad */
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  display: flex; /* Required for pad-inner alignment */
+  flex-direction: column;
+  padding: 12px;
+}
+
+.beatbox-pad.active:not(.loaded) {
+  transform: scale(0.97);
+  background-color: #444;
+}
+
+.beatbox-pad.loaded {
+  background: linear-gradient(160deg, var(--pad-color), var(--pad-hover-color));
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.4),
+    inset 0 -8px 15px rgba(0, 0, 0, 0.25);
+}
+
+.beatbox-pad.loaded.active {
+  transform: scale(1.02);
+}
+
+.beatbox-pad:hover:not(.loaded) {
+  background-color: #444;
+}
+
+.beatbox-pad.loaded:hover {
+  background: linear-gradient(
+    160deg,
+    var(--pad-hover-color),
+    var(--pad-active-color)
+  );
+}
+
+/* Responsive adjustments for pads */
+@media (max-width: 768px) {
+  .pad {
+    border-radius: 35px; /* keep it capsule-like */
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pad {
+    border-radius: 30px; /* keep it capsule-like */
+    padding: 8px;
+  }
+  .beatbox-pad {
+    border-radius: 30px; /* keep it capsule-like */
+    padding: 8px;
+  }
+}

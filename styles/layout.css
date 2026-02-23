@@ -1,0 +1,143 @@
+/* ==========================================================================
+   Layout Styles
+   ==========================================================================
+   - Main container and app structure
+   - Header and logo
+   - Controls section layout
+   - Pad containers
+*/
+
+.container {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100%;
+  max-width: 75vw;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: nowrap;
+}
+
+.logo-link {
+  text-decoration: none;
+}
+
+header h1 {
+  font-family: "Roboto", sans-serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: #eee;
+  text-align: center;
+  margin: 0;
+  cursor: pointer;
+  background: linear-gradient(
+    90deg,
+    var(--brand-pink),
+    var(--brand-cyan),
+    var(--brand-pink)
+  );
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: animate-gradient 4s ease infinite;
+  text-shadow:
+    0 0 10px rgba(255, 0, 234, 0.2),
+    0 0 20px rgba(0, 195, 255, 0.2);
+}
+
+/* Main App Container */
+.app {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+  height: 100%;
+  min-height: 0;
+}
+
+/* Main Pads Grid Container */
+.pads-container,
+.beatbox-pads-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 20px 30px; /* Vertical and horizontal gap */
+  margin: auto;
+  padding: 20px;
+  justify-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* Responsive Design */
+
+@media (max-width: 1024px) {
+  header {
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 15px;
+    gap: 15px;
+    flex-wrap: nowrap;
+  }
+  .container {
+    max-width: none;
+  }
+  .pads-container,
+  .beatbox-pads-container {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-auto-flow: column; /* Fill columns first to maintain order */
+    gap: 10px;
+    padding: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 5px;
+  }
+  .container {
+    padding: 10px;
+    max-width: none;
+  }
+  .logo-link {
+    transition:
+      opacity 0.3s ease-in-out,
+      max-height 0.3s ease-in-out;
+    max-height: 40px;
+    overflow: hidden;
+  }
+  body.loop-mode .logo-link {
+    opacity: 0;
+    max-height: 0;
+    pointer-events: none;
+    display: none;
+  }
+  header h1 {
+    font-size: 1.6rem;
+    margin: 0;
+    padding: 0;
+  }
+  body.loop-mode header h1 {
+    animation-play-state: paused;
+  }
+  .pads-container,
+  .beatbox-pads-container {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-auto-flow: column; /* Fill columns first to maintain order */
+    gap: 10px;
+    padding: 5px;
+  }
+}
